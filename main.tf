@@ -28,6 +28,11 @@ resource "aws_lambda_function" "test_lambda_function" {
   runtime          = "python3.9"
   handler          = "lambda_function.lambda_handler"
   timeout          = 10
+   tags = {
+    Name = "sentineal_lambda",
+    "Artifactory" = "Artifactory"
+ 
+  }
 }
 
 
@@ -56,3 +61,5 @@ resource "aws_kms_key" "mykey" {
   description             = "This key is used to encrypt bucket objects"
   deletion_window_in_days = 10
 }
+
+
