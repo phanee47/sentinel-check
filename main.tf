@@ -9,6 +9,37 @@ data "aws_iam_policy_document" "lambda_assume_role_policy" {
   }
 }
 
+resource "aws_iam_policy" "aws-lambda" {
+  name        = "lambda-function"
+  path        = "/"
+  description = "My test policy"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Resource": "*",
+            "Action": [
+                "ec2:DescribeInstances",
+                "ec2:CreateNetworkInterface",
+                "ec2:AttachNetworkInterface",
+                "ec2:DescribeNetworkInterfaces",
+                "autoscaling:CompleteLifecycleAction",
+                "ec2:DeleteNetworkInterface"
+            ]
+        }
+        ]
+})
+}
+
+resource "aws_iam_role_policy_attachment" "test-attach" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.aws-lambda.arn
+}
+
 resource "aws_iam_role" "lambda_role" {
   name               = "lambda-lambdaRole-waf"
   assume_role_policy = data.aws_iam_policy_document.lambda_assume_role_policy.json
