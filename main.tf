@@ -116,7 +116,5 @@ data "aws_subnet" "selected" {
 output "subnets_public_flag" {
   value = [for s in data.aws_subnet.selected : s.map_public_ip_on_launch] 
 }
-  
-}
 
 
