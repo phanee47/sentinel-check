@@ -114,8 +114,7 @@ data "aws_subnet" "selected" {
 }
 
 output "subnets_public_flag" {
-  for_each = toset(data.aws_subnets.selected.ids)
-  value = data.aws_subnet.selected[each.key].map_public_ip_on_launch
+  value = [for s in data.aws_subnet.selected : s.map_public_ip_on_launch] 
 }
   
 }
