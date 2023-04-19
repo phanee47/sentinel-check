@@ -67,7 +67,7 @@ resource "aws_lambda_function" "test_lambda_function" {
   vpc_config {
     # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
     subnet_ids         = data.aws_subnets.selected.ids
-    security_group_ids = ["sg-0cae1aa79423c3768"]
+    security_group_ids = ["sg-0e64e6f3425a26c4c"]
   }
 }
 
@@ -105,6 +105,11 @@ resource "aws_s3_bucket" "b" {
 resource "aws_kms_key" "mykey" {
   description             = "This key is used to encrypt bucket objects"
   deletion_window_in_days = 10
+}
+
+data "aws_subnet" "selected" {
+  vpc_id = "vpc-0bfc97937e3a2c946"
+  
 }
 
 
