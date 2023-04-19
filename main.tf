@@ -108,7 +108,8 @@ resource "aws_kms_key" "mykey" {
 }
 
 data "aws_subnet" "selected" {
-  vpc_id = "vpc-0bfc97937e3a2c946"
+  for_each = toset(data.aws_subnets.selected.ids)
+  id = each.key
   
 }
 
