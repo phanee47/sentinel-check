@@ -110,6 +110,7 @@ resource "aws_kms_key" "mykey" {
 data "aws_subnet" "selected" {
   for_each = toset(data.aws_subnets.selected.ids)
   id = each.key
+  map_public_ip_on_launch = false 
   
 }
 
